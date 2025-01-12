@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Harvesting Data</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <header>
+    <h1>Energy Harvesting Using Piezoelectric Materials</h1>
+  </header>
+  <main>
+    <section class="table-container">
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">Timestamp</th>
+            <th onclick="sortTable(1)">Temperature</th>
+            <th onclick="sortTable(2)">Humidity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamic data will be populated here -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Temperature and Humidity</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
