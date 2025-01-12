@@ -9,7 +9,7 @@ app.use(express.json());
 
 // PostgreSQL connection pool
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://drc:89OhljlFctnc1p6PtGpAWULvRkk3myPI@dpg-cs90rbjqf0us738h85p0-a/piezo_electric',
+  connectionString: process.env.DATABASE_URL || 'postgresql://temp_5nu1_user:hA21MUJK9khsyFMt59EfwiBtI2ygoBab@dpg-cu1sitggph6c73el2rc0-a/temp_5nu1',
   ssl: { rejectUnauthorized: false }, // Necessary for some cloud-hosted databases
 });
 
@@ -21,13 +21,13 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/update', async (req, res) => {
-  const { voltage, current } = req.body;
+  const { temperature, humidity } = req.body;
 
-  if (typeof voltage === 'number' && typeof current === 'number') {
+  if (typeof temperature === 'number' && typeof humidity === 'number') {
     try {
       // Insert data into PostgreSQL
-      await pool.query('INSERT INTO sensor_data (voltage, current) VALUES ($1, $2)', [voltage, current]);
-      console.log(`Data saved: Voltage = ${voltage}, Current = ${current}`);
+      await pool.query('INSERT INTO sensor_data (temperature, humidity) VALUES ($1, $2)', [temperature, humidity]);
+      console.log(`Data saved: Temperature = ${temperature}, Humidity = ${humidity}`);
       res.status(200).json({ message: 'Data saved successfully' });
     } catch (err) {
       console.error('Database error:', err);
@@ -40,13 +40,14 @@ app.post('/api/update', async (req, res) => {
 
 app.get('/api/sensor-data', async (req, res) => {
   try {
-    const result = await pool.query('SELECT voltage, current, timestamp FROM sensor_data ORDER BY timestamp DESC');
+    const result = await pool.query('SELECT temperature, humidity, created_at FROM sensor_data ORDER BY created_at DESC');
     res.status(200).json(result.rows);
   } catch (err) {
     console.error('Error fetching data:', err);
     res.status(500).json({ error: 'Database error' });
   }
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
